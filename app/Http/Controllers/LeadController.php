@@ -2,64 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LeadRequest;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Lead::where('user_id', auth()->id())
+            ->with('tasks')
+            ->search($request->search)
+            ->filterByStatus($request->status)
+            ->latest();
+
+        $leads = $query->paginate(15)->withQueryString();
+
+        return view('leads.index', compact('leads'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('leads.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(LeadRequest $request)
     {
-        //
+        $lead = Lead::create([
+            ...$request->validated(),
+            'assigned_to' => auth()->id(),
+        ]);
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', 'Лид успешно создан');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Lead $lead)
     {
-        //
+        $this->authorize('view', $lead);
+        
+        $lead->load(['tasks' => function ($query) {
+            $query->latest();
+        }]);
+
+        return view('leads.show', compact('lead'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Lead $lead)
     {
-        //
+        $this->authorize('update', $lead);
+
+        return view('leads.edit', compact('lead'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Lead $lead)
+    public function update(LeadRequest $request, Lead $lead)
     {
-        //
+        $lead->update($request->validated());
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', 'Лид успешно обновлен');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Lead $lead)
     {
-        //
+        $this->authorize('delete', $lead);
+
+        $lead->delete();
+
+        return redirect()
+            ->route('leads.index')
+            ->with('success', 'Лид успешно удален');
     }
 }

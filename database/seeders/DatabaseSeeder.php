@@ -2,24 +2,42 @@
 
 namespace Database\Seeders;
 
+use App\Models\Lead;
+use App\Models\Task;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user1 = User::create([
+            'name' => 'User One',
+            'email' => 'user1@example.com',
             'password' => Hash::make('password'),
         ]);
+
+        $user2 = User::create([
+            'name' => 'User Two',
+            'email' => 'user2@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        $user1Leads = Lead::factory(10)->create([
+            'user_id' => $user1->id,
+        ]);
+
+        $user2Leads = Lead::factory(10)->create([
+            'user_id' => $user2->id,
+        ]);
+
+        $allLeads = $user1Leads->concat($user2Leads);
+
+        for ($i = 0; $i < 15; $i++) {
+            Task::factory()->create([
+                'lead_id' => $allLeads->random()->id,
+            ]);
+        }
     }
 }

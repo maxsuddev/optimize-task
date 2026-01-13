@@ -16,7 +16,7 @@ class Lead extends Model
         'phone',
         'status',
         'note',
-        'assigned_to',
+        'user_id',
     ];
 
     protected $casts = [
@@ -26,7 +26,7 @@ class Lead extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function tasks(): HasMany
@@ -68,10 +68,22 @@ class Lead extends Model
     public function getStatusLabel(): string
     {
         return match($this->status) {
-            'new' => 'Новый',
-            'in_progress' => 'В работе',
-            'done' => 'Завершен',
+            'new' => __('pageText.lead_status_new'),
+            'in_progress' => __('pageText.lead_status_in_progress'),
+            'done' => __('pageText.lead_status_done'),
             default => $this->status,
         };
+    }
+
+       // Total tasks
+    public function getTasksTotalAttribute()
+    {
+        return $this->tasks->count();
+    }
+
+    // Done tasks
+    public function getTasksDoneAttribute()
+    {
+        return $this->tasks->where('is_done', true)->count();
     }
 }

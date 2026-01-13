@@ -1,0 +1,23 @@
+<?php
+return [
+    'login' => 'Вход',
+    'email' => 'Электронная почта',
+    'password' => 'Пароль',
+    'logout' => 'Выход',
+    'leads' => 'Мои лиды',
+    'lead_create' => 'Создать лид',
+    'search' => 'Поиск',
+    'status' => 'Статус',
+    'all_statuses' => 'Все статусы',
+    'lead_status_new' => 'Новый',
+    'lead_status_in_progress' => 'В работе',
+    'lead_status_done' => 'Завершен',
+    'find' => 'Найти',
+    'reset' => 'Сбросить',
+    'no_leads_found' => 'Лидов не найдено',
+    'full_name' => 'Имя',
+    'phone' => 'Телефон',
+    'tasks' => 'Задачи',
+    'created_at' => 'Дата создания',
+    'note' => 'Заметка',
+];

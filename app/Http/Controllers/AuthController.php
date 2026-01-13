@@ -17,7 +17,7 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors(['error' => __('messages.unauthorized')]);
             }
 
-            return redirect()->route('dashboard')->with(['success' => __('messages.successLogin')]);
+            return redirect()->route('leads.index')->with(['success' => __('messages.successLogin')]);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['email' => __('messages.unauthorized')]);
         }

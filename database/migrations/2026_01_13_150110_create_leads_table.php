@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lead', function (Blueprint $table) {
+        Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
             $table->string('phone');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
 
 
-            
+
             $table->index('user_id');
             $table->index('status');
             $table->index('full_name');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lead');
+        Schema::dropIfExists('leads');
     }
 };

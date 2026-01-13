@@ -1,0 +1,25 @@
+<?php
+
+
+return [
+    'login' => 'Kirish',
+    'email' => 'Elektron pochta',
+    'password' => 'Parol',
+    'logout' => 'Chiqish',
+    'leads' => 'Mening lidlarim',
+    'lead_create' => 'Lid yaratish',
+    'search' => 'Qidirish',
+    'status' => 'Holat',
+    'all_statuses' => 'Barcha holatlar',
+    'find' => 'Qidirish',
+    'reset' => 'Qaytish',
+    'no_leads_found' => 'Lidlar topilmadi',
+    'full_name' => 'To‘liq ism',
+    'phone' => 'Telefon',
+    'tasks' => 'Vazifalar',
+    'created_at' => 'Yaratilgan vaqti',
+    'note' => 'Eslatma',
+    'lead_status_new' => 'Yangi',
+    'lead_status_in_progress' => 'Jarayonda',
+    'lead_status_done' => 'Tugatildi',
+];
