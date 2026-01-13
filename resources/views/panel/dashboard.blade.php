@@ -1,5 +1,5 @@
 @extends('panel.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Lead')
 @section('page', 'Dashboard')
     @section('content')
 @if(session('success'))

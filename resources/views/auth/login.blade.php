@@ -65,7 +65,7 @@
                       </div>
                     </div>
                        @error('email')
-                            <div id="autoCloseAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div id="autoCloseAlert" class="alert alert-danger alert-dismissible" role="alert">
                                 {{ $message}}
                             </div>
                             @enderror
@@ -75,7 +75,11 @@
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
-
+                       @error('password')
+                            <div id="autoCloseAlert" class="alert alert-danger alert-dismissible" role="alert">
+                                {{ $message}}
+                            </div>
+                            @enderror
 {{--                    <div class="col-12">--}}
 {{--                      <div class="form-check">--}}
 {{--                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">--}}
