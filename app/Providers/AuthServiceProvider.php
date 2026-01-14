@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\Lead;
 use App\Policies\LeadPolicy;
-use App\Repositories\Contracts\LeadRepositoryInterface;
-use App\Repositories\Eloquent\LeadRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Eloquent\LeadRepository;
+use App\Repositories\Eloquent\TaskRepository;
+use App\Repositories\Contracts\LeadRepositoryInterface;
+use App\Repositories\Contracts\TaskRepositoryInterface;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     ];
      public array $bindings = [
         LeadRepositoryInterface::class => LeadRepository::class,
+        TaskRepositoryInterface::class => TaskRepository::class,
     ];
     /**
      * Register services.

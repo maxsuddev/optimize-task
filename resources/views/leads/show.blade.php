@@ -123,7 +123,7 @@
 <div class="modal fade" id="addTaskModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{{ route('tasks.toggle', $lead) }}">
+            <form method="POST" action="{{ route('leads.tasks.store', $lead) }}">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Новая задача</h5>

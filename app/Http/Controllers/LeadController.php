@@ -21,14 +21,13 @@ class LeadController extends Controller
     public function index(Request $request)
     {
         try {
+
             $leads = $this->leadRepository->all($request);
     
             return view('leads.index', compact('leads'));
 
         } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', __('messages.error') . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.error') . $e->getMessage());
         }
     }
 
@@ -39,25 +38,26 @@ class LeadController extends Controller
 
     public function store(LeadRequest $request)
     {
-        $lead = Lead::create([
-            ...$request->validated(),
-            'user_id' => auth()->id(),
-        ]);
-
-        return redirect()
-            ->route('leads.show', $lead)
-            ->with('success', 'Лид успешно создан');
+        try {
+            $lead = $this->leadRepository->store($request);
+    
+            return redirect()
+                ->route('leads.show', $lead)
+                ->with('success', __('messages.success_store_lead'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('messages.error') . $e->getMessage());
+        }
     }
 
     public function show(Lead $lead)
     {
-         $this->authorize('view', $lead);
-        
-        $lead->load(['tasks' => function ($query) {
-            $query->latest();
-        }]);
-
-        return view('leads.show', compact('lead'));
+        try {
+            $lead = $this->leadRepository->show($lead->id);
+    
+            return view('leads.show', compact('lead'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('messages.error') . $e->getMessage());
+        }
     }
 
     public function edit(Lead $lead)
@@ -67,24 +67,31 @@ class LeadController extends Controller
         return view('leads.edit', compact('lead'));
     }
 
+
     public function update(LeadRequest $request, Lead $lead)
     {
-        $this->authorize('update', $lead);
-        $lead->update($request->validated());
-
-        return redirect()
-            ->route('leads.show', $lead)
-            ->with('success', 'Лид успешно обновлен');
+        try {
+            $updatedLead = $this->leadRepository->update($lead->id, $request);
+    
+            return redirect()
+                ->route('leads.show', $updatedLead)
+                ->with('success', __('messages.success_update_lead'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('messages.error') . $e->getMessage());
+        }
     }
 
     public function destroy(Lead $lead)
     {
-        $this->authorize('delete', $lead);
-
-        $lead->delete();
-
-        return redirect()
-            ->route('leads.index')
-            ->with('success', 'Лид успешно удален');
+        try {
+            $this->authorize('delete', $lead);
+            $this->leadRepository->delete($lead->id);
+    
+            return redirect()
+                ->route('leads.index')
+                ->with('success', __('messages.success_delete_lead'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('messages.error') . $e->getMessage());
+        }
     }
 }

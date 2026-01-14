@@ -6,16 +6,17 @@ use App\Http\Requests\LeadRequest;
 use App\Models\Lead;
 use App\Repositories\Contracts\LeadRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LeadRepository implements LeadRepositoryInterface
 {
-    public function find($id)
+    public function show(int $id): Lead
     {
-        // Implementation here
+        return Lead::with(['tasks' => fn($q) => $q->latest('created_at')])->findOrFail($id);
     }
 
 
-    public function all(Request $request)
+    public function all(Request $request): LengthAwarePaginator
     {
         $query = Lead::where('user_id', auth()->id())
             ->withCount('tasks')
@@ -30,16 +31,22 @@ class LeadRepository implements LeadRepositoryInterface
     }
 
 
-    public function store(LeadRequest $request)
+    public function store(LeadRequest $request): Lead
     {
-        // Implementation here
+        $lead = Lead::create([
+            ...$request->validated(),
+            'user_id' => auth()->id(),
+        ]);
+        return $lead;
     }
-    public function update($id, LeadRequest $lead)
+    public function update(int $id, LeadRequest $lead): Lead
     {
-        // Implementation here
+        $leadModel = Lead::findOrFail($id);
+        $leadModel->update($lead->validated());
+        return $leadModel;
     }
-    public function delete($id)
+    public function delete(int $id): bool
     {
-        // Implementation here
+        return Lead::destroy($id);
     }
 }
