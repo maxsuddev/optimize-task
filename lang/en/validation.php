@@ -10,10 +10,12 @@ return [
     'invalid_locale' => 'Unsupported language specified',
     'array' => 'The :attribute must be an array',
     'unique' => 'The :attribute has already been taken',
+    'after_or_equal' => 'The :attribute must be a date after or equal to :date',
     'attributes' => [
         'full_name' => 'Full Name',
         'phone' => 'Phone',
         'status' => 'Status',
         'note' => 'Note',
+        'due_at' => 'Due At'
     ],
 ];

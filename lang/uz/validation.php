@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'required' => ':attribute maydoni majburiy.',
     'min' => ':attribute kamida :min ta belgidan iborat bo‘lishi kerak.',
@@ -10,6 +10,8 @@ return [
     'unique' => ':attribute allaqachon band qilingan.',
     'in' => ':attribute noto‘g‘ri qiymat kiritildi.',
     'mimes' => ':attribute fayl turi faqat: :values bo‘lishi mumkin.',
+    'after_or_equal' => ':attribute sanasi :date yoki undan keyin bo‘lishi kerak.',
+    
     'max' => [
         'file' => ':attribute hajmi :max KB dan oshmasligi kerak.',
     ],
@@ -18,6 +20,8 @@ return [
         'phone' => 'Telefon',
         'status' => 'Holat',
         'note' => 'Eslatma',
+        'due_at' => 'Bajarish muddati'
+
     ],
 
 ];

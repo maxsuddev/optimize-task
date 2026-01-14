@@ -12,20 +12,20 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <a href="{{ route('leads.index') }}" class="text-decoration-none text-muted mb-2 d-block">
-                    <i class="bi bi-arrow-left"></i> Назад к списку
+                    <i class="bi bi-arrow-left"></i> {{__('pageText.back_to_leads')}}
                 </a>
                 <h1 class="h3 mb-0">{{ $lead->full_name }}</h1>
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ route('leads.edit', $lead) }}" class="btn btn-outline-primary">
-                    <i class="bi bi-pencil"></i> Редактировать
+                    <i class="bi bi-pencil"></i> {{__('pageText.edit')}}
                 </a>
                 <form method="POST" action="{{ route('leads.destroy', $lead) }}" 
-                      onsubmit="return confirm('Вы уверены, что хотите удалить этот лид?')">
+                      onsubmit="return confirm('Are you sure you want to delete this lead? This action cannot be undone.')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-outline-danger">
-                        <i class="bi bi-trash"></i> Удалить
+                        <i class="bi bi-trash"></i> {{__('pageText.delete')}}
                     </button>
                 </form>
             </div>
@@ -33,14 +33,14 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title mb-3">Информация о лиде</h5>
+                <h5 class="card-title mb-3">{{ __('pageText.lead_info') }}</h5>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="text-muted small">Телефон</label>
+                        <label class="text-muted small">{{__('pageText.phone')}}</label>
                         <p class="mb-0">{{ $lead->phone }}</p>
                     </div>
                     <div class="col-md-6">
-                        <label class="text-muted small">Статус</label>
+                        <label class="text-muted small">{{__('pageText.status')}}</label>
                         <p class="mb-0">
                             <span class="badge {{ $lead->getStatusBadgeClass() }}">
                                 {{ $lead->getStatusLabel() }}
@@ -48,12 +48,12 @@
                         </p>
                     </div>
                     <div class="col-12">
-                        <label class="text-muted small">Дата создания</label>
+                        <label class="text-muted small">{{__('pageText.created_at')}}</label>
                         <p class="mb-0">{{ $lead->created_at->format('d.m.Y H:i') }}</p>
                     </div>
                     @if($lead->note)
                         <div class="col-12">
-                            <label class="text-muted small">Заметка</label>
+                            <label class="text-muted small">{{__('pageText.note')}}</label>
                             <p class="mb-0">{{ $lead->note }}</p>
                         </div>
                     @endif
@@ -63,16 +63,16 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Задачи ({{ $lead->tasks->count() }})</h5>
+                <h5 class="mb-0">{{ __('pageText.tasks') }} ({{ $lead->tasks->count() }})</h5>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                    <i class="bi bi-plus-lg"></i> Добавить задачу
+                    <i class="bi bi-plus-lg"></i> {{ __('pageText.add_task') }}
                 </button>
             </div>
             <div class="card-body">
                 @if($lead->tasks->isEmpty())
                     <div class="text-center py-4">
                         <i class="bi bi-list-task display-4 text-muted"></i>
-                        <p class="text-muted mt-2">Задач пока нет</p>
+                        <p class="text-muted mt-2">{{ __('pageText.no_tasks') }}</p>
                     </div>
                 @else
                     <div class="list-group list-group-flush">
@@ -97,14 +97,14 @@
                                                     {{ $task->due_at->format('d.m.Y H:i') }}
                                                 </span>
                                                 @if($task->isOverdue())
-                                                    <span class="badge bg-danger ms-1">Просрочено</span>
+                                                    <span class="badge bg-danger ms-1">{{ __('pageText.overdue') }}</span>
                                                 @endif
                                             @endif
                                         </div>
                                     </div>
                                 </div>
                                 <form method="POST" action="{{ route('tasks.destroy', $task) }}" 
-                                      onsubmit="return confirm('Удалить эту задачу?')">
+                              onsubmit="return confirm('Are you sure you want to delete this task? This action cannot be undone.')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger">
@@ -126,13 +126,13 @@
             <form method="POST" action="{{ route('leads.tasks.store', $lead) }}">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title">Новая задача</h5>
+                    <h5 class="modal-title">{{ __('pageText.add_task') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="title" class="form-label">
-                            Название задачи <span class="text-danger">*</span>
+                            {{ __('pageText.task_title') }} <span class="text-danger">*</span>
                         </label>
                         <input type="text" 
                                class="form-control @error('title') is-invalid @enderror" 
@@ -145,7 +145,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="due_at" class="form-label">Срок выполнения</label>
+                        <label for="due_at" class="form-label">{{ __('pageText.due_at') }}</label>
                         <input type="datetime-local" 
                                class="form-control @error('due_at') is-invalid @enderror" 
                                id="due_at" 
@@ -157,8 +157,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Создать задачу</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('pageText.cancel')}}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('pageText.save') }}</button>
                 </div>
             </form>
         </div>

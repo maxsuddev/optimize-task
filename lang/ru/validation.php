@@ -10,11 +10,14 @@ return [
     'invalid_locale' => 'Указан неподдерживаемый язык',
     'array' => 'Поле :attribute должно быть массивом.',
     'unique' => 'Поле :attribute уже занято.',
+    'after_or_equal' => 'Поле :attribute должно быть датой после или равной :date',
+    
 
     'attributes' => [
         'full_name' => 'Имя',
         'phone' => 'Телефон',
         'status' => 'Статус',
         'note' => 'Заметка',
+        'due_at' => 'Срок выполнения'
     ],
 ];

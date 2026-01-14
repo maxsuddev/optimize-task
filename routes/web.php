@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\LocaleController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -12,7 +13,12 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
-Route::middleware('auth')->group(function () {
+
+Route::group([
+    'middleware' => ['auth', 'lang'],
+], function () {
+     Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
+
     Route::resource('leads', LeadController::class);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::delete('tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
