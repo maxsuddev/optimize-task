@@ -12,6 +12,9 @@ return [
     'unique' => 'Поле :attribute уже занято.',
 
     'attributes' => [
-        'name' => 'Название',
+        'full_name' => 'Имя',
+        'phone' => 'Телефон',
+        'status' => 'Статус',
+        'note' => 'Заметка',
     ],
 ];

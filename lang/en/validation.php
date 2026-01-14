@@ -10,8 +10,10 @@ return [
     'invalid_locale' => 'Unsupported language specified',
     'array' => 'The :attribute must be an array',
     'unique' => 'The :attribute has already been taken',
-
-
-
-    
+    'attributes' => [
+        'full_name' => 'Full Name',
+        'phone' => 'Phone',
+        'status' => 'Status',
+        'note' => 'Note',
+    ],
 ];

@@ -22,4 +22,8 @@ return [
     'lead_status_new' => 'Yangi',
     'lead_status_in_progress' => 'Jarayonda',
     'lead_status_done' => 'Tugatildi',
+    'lead_create_description' => 'Yangi lid haqida ma\'lumotni to\'ldiring',
+    'full_name_plc' => 'To\'liq ismni kiriting',
+    'note_plc' => 'Qo\'shimcha ma\'lumot',
+    'cancel' => 'Bekor qilish',
 ];

@@ -30,7 +30,7 @@ class LeadController extends Controller
     {
         $lead = Lead::create([
             ...$request->validated(),
-            'assigned_to' => auth()->id(),
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()
@@ -40,7 +40,6 @@ class LeadController extends Controller
 
     public function show(Lead $lead)
     {
-        $this->authorize('view', $lead);
         
         $lead->load(['tasks' => function ($query) {
             $query->latest();

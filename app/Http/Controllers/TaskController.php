@@ -2,64 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
+use App\Models\Lead;
 use App\Models\Task;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(TaskRequest $request, Lead $lead)
     {
-        //
+        $lead->tasks()->create($request->validated());
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', 'Задача успешно создана');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function toggle(Task $task)
     {
-        //
+        $this->authorize('update', $task->lead);
+
+        $task->update([
+            'is_done' => !$task->is_done
+        ]);
+
+        return redirect()
+            ->route('leads.show', $task->lead)
+            ->with('success', 'Статус задачи обновлен');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Task $task)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Task $task)
     {
-        //
+        $this->authorize('delete', $task->lead);
+
+        $lead = $task->lead;
+        $task->delete();
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', 'Задача успешно удалена');
     }
 }

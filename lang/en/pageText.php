@@ -21,4 +21,8 @@ return [
     'tasks' => 'Tasks',
     'created_at' => 'Created At',
     'note' => 'Note',
+    'lead_create_description' => 'Fill in the information about the new lead',
+    'full_name_plc' => 'Enter full name',
+    'note_plc' => 'Additional information',
+    'cancel' => 'Cancel',
 ];
