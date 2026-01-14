@@ -8,6 +8,7 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
+    use \Illuminate\Foundation\Auth\Access\AuthorizesRequests;
     public function store(TaskRequest $request, Lead $lead)
     {
         $lead->tasks()->create(

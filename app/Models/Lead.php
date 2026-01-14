@@ -23,6 +23,8 @@ class Lead extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+     protected $appends = ['tasks_total', 'tasks_done'];
+
 
     public function user(): BelongsTo
     {
@@ -39,10 +41,9 @@ class Lead extends Model
         if (!$search) {
             return $query;
         }
-
         return $query->where(function ($q) use ($search) {
             $q->where('full_name', 'like', "%{$search}%")
-              ->orWhere('phone', 'like', "%{$search}%");
+                ->orWhere('phone', 'like', "%{$search}%");
         });
     }
 
@@ -51,13 +52,12 @@ class Lead extends Model
         if (!$status) {
             return $query;
         }
-
         return $query->where('status', $status);
     }
 
     public function getStatusBadgeClass(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'new' => 'bg-primary',
             'in_progress' => 'bg-warning',
             'done' => 'bg-success',
@@ -67,7 +67,7 @@ class Lead extends Model
 
     public function getStatusLabel(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'new' => __('pageText.lead_status_new'),
             'in_progress' => __('pageText.lead_status_in_progress'),
             'done' => __('pageText.lead_status_done'),
@@ -75,15 +75,15 @@ class Lead extends Model
         };
     }
 
-       // Total tasks
-    public function getTasksTotalAttribute()
+
+  public function getTasksTotalAttribute()
     {
-        return $this->tasks->count();
+        return $this->tasks_count ?? 0; 
     }
 
-    // Done tasks
     public function getTasksDoneAttribute()
     {
-        return $this->tasks->where('is_done', true)->count();
+        return $this->tasks_done_count ?? 0;
     }
+
 }

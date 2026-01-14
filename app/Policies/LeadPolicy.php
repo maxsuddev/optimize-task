@@ -14,7 +14,7 @@ class LeadPolicy
 
     public function view(User $user, Lead $lead): bool
     {
-        return $user->id === $lead->assigned_to;
+        return $user->id === $lead->user_id;
     }
 
     public function create(User $user): bool
@@ -24,11 +24,11 @@ class LeadPolicy
 
     public function update(User $user, Lead $lead): bool
     {
-        return $user->id === $lead->assigned_to;
+        return $user->id === $lead->user_id;
     }
 
     public function delete(User $user, Lead $lead): bool
     {
-        return $user->id === $lead->assigned_to;
+        return $user->id === $lead->user_id;
     }
 }

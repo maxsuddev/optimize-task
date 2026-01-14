@@ -60,6 +60,7 @@
             <table class="table table-hover mb-0">
                 <thead class="table-light">
                     <tr>
+                        <th>ID</th>
                         <th>{{__('pageText.full_name')}}</th>
                         <th>{{__('pageText.phone')}}</th>
                         <th>{{__('pageText.status')}}</th>
@@ -71,6 +72,7 @@
                 <tbody>
                     @foreach($leads as $lead)
                         <tr>
+                            <td>{{ $lead->id }}</td>
                             <td>
                                 <a href="{{ route('leads.show', $lead) }}" class="text-decoration-none fw-semibold">
                                     {{ $lead->full_name }}
@@ -105,8 +107,11 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        {{ $leads->links() }}
-    </div>
+  <div class="col-12">
+                    <nav aria-label="Page navigation" class="justify-content-center">
+                        {{$leads->links('pagination::bootstrap-5')}}
+                    </nav>
+ </div>
+
 @endif
     @endsection

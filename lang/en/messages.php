@@ -3,6 +3,7 @@
 return [
     'validation_failed' => 'Validation failed',
     'success'           => 'Action was successful',
+    'error'             => 'An error occurred: ',
     'unauthorized'      => 'Unauthorized access',
     'successLogin'      => 'You are logged in successfully',
     'successLogout'     => 'You are logged out successfully',

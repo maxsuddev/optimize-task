@@ -6,9 +6,12 @@ use App\Http\Requests\LeadRequest;
 use App\Models\Lead;
 use App\Repositories\Contracts\LeadRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class LeadController extends Controller
 {
+    use AuthorizesRequests;
+
     protected $leadRepository;
     public function __construct(LeadRepositoryInterface $leadRepository)
     {
@@ -21,11 +24,11 @@ class LeadController extends Controller
             $leads = $this->leadRepository->all($request);
     
             return view('leads.index', compact('leads'));
-            
+
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Ошибка при загрузке лидов: ' . $e->getMessage());
+                ->with('error', __('messages.error') . $e->getMessage());
         }
     }
 
@@ -48,6 +51,7 @@ class LeadController extends Controller
 
     public function show(Lead $lead)
     {
+         $this->authorize('view', $lead);
         
         $lead->load(['tasks' => function ($query) {
             $query->latest();
@@ -65,6 +69,7 @@ class LeadController extends Controller
 
     public function update(LeadRequest $request, Lead $lead)
     {
+        $this->authorize('update', $lead);
         $lead->update($request->validated());
 
         return redirect()
