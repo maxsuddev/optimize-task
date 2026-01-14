@@ -167,11 +167,14 @@
 </div>
 
 @if($errors->any())
-    @push('scripts')
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('addTaskModal'));
-        myModal.show();
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modalEl = document.getElementById('addTaskModal');
+            if (modalEl) {
+                var modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        });
     </script>
-    @endpush
 @endif
 @endsection

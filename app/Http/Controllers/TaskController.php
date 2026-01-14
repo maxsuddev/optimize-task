@@ -10,7 +10,9 @@ class TaskController extends Controller
 {
     public function store(TaskRequest $request, Lead $lead)
     {
-        $lead->tasks()->create($request->validated());
+        $lead->tasks()->create(
+            $request->validated()
+            );
 
         return redirect()
             ->route('leads.show', $lead)

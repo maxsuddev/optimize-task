@@ -4,21 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LeadRequest;
 use App\Models\Lead;
+use App\Repositories\Contracts\LeadRepositoryInterface;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
 {
+    protected $leadRepository;
+    public function __construct(LeadRepositoryInterface $leadRepository)
+    {
+        $this->leadRepository = $leadRepository;
+    }   
+  
     public function index(Request $request)
     {
-        $query = Lead::where('user_id', auth()->id())
-            ->with('tasks')
-            ->search($request->search)
-            ->filterByStatus($request->status)
-            ->latest();
-
-        $leads = $query->paginate(15)->withQueryString();
-
-        return view('leads.index', compact('leads'));
+        try {
+            $leads = $this->leadRepository->all($request);
+    
+            return view('leads.index', compact('leads'));
+            
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Ошибка при загрузке лидов: ' . $e->getMessage());
+        }
     }
 
     public function create()
