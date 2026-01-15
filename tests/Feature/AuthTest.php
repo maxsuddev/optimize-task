@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class AuthTest extends TestCase
 {
     // RefreshDatabase  ishlatmaganimi sababi mening kanpyuterimda sekin ishladi shuning uchun DatabaseTransactions ishlatdim
+
         use DatabaseTransactions;
 
         // test to access login page
@@ -18,8 +19,8 @@ class AuthTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('Login');
-        $response->assertSee('Email');
+        $response->assertSee(__('pageText.email'));
+        $response->assertSee(__('pageText.password'));
     }
 
     // test login with correct credentials
