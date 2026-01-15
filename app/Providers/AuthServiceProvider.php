@@ -15,6 +15,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Lead::class => LeadPolicy::class,
     ];
+
+    // to do : --- alohida repository provideriga olish kerak --- 
      public array $bindings = [
         LeadRepositoryInterface::class => LeadRepository::class,
         TaskRepositoryInterface::class => TaskRepository::class,

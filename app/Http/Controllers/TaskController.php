@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function toggle(Task $task)
     {
         try {
-            $this->authorize('update', $task->lead);
+            $this->authorize('permission', $task->lead);
             $this->taskRepository->toggle($task->id);
 
             return redirect()

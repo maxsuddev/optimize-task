@@ -14,7 +14,7 @@ class AuthTest extends TestCase
         use DatabaseTransactions;
 
         // test to access login page
-    public function test_to_login_page_success(): void
+    public function test_view_login_page_success(): void
     {
         $response = $this->get('/');
 
@@ -58,7 +58,7 @@ class AuthTest extends TestCase
     }
 
     // test logout 
-    public function test_authenticated_user_can_logout()
+    public function test_user_can_logout()
     {
         $user = User::factory()->create();
 

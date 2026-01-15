@@ -51,6 +51,7 @@ class LeadController extends Controller
 
     public function show(Lead $lead)
     {
+        $this->authorize('permission', $lead);
         try {
             $lead = $this->leadRepository->show($lead->id);
     
@@ -62,7 +63,7 @@ class LeadController extends Controller
 
     public function edit(Lead $lead)
     {
-        $this->authorize('update', $lead);
+        $this->authorize('permission', $lead);
 
         return view('leads.edit', compact('lead'));
     }
@@ -84,7 +85,7 @@ class LeadController extends Controller
     public function destroy(Lead $lead)
     {
         try {
-            $this->authorize('delete', $lead);
+            $this->authorize('permission', $lead);
             $this->leadRepository->delete($lead->id);
     
             return redirect()

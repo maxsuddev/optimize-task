@@ -5,9 +5,10 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Lead;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LeadTest extends TestCase
+class LeadTaskTest extends TestCase
 {
      use DatabaseTransactions;
 
@@ -26,7 +27,7 @@ class LeadTest extends TestCase
     }
 
     // Lead create view test
-    public function test_to_create_lead_page_success(): void
+    public function test_view_create_lead_page_success(): void
     {
         $user = $this->authUser();
 
@@ -70,7 +71,7 @@ class LeadTest extends TestCase
     }
 
     // Lead edit view test
-    public function test_to_edit_lead_page_success(): void
+    public function test_view_edit_lead_page_success(): void
     {
         $user = $this->authUser();
         $lead = $this->createLead($user);
@@ -105,6 +106,51 @@ class LeadTest extends TestCase
         // check db
         $this->assertSoftDeleted('leads', ['id' => $lead->id]);
     }
+
+     // task store test
+    public function test_storing_task_success(): void
+    {
+        $user = $this->authUser();
+        $lead = $this->createLead($user);
+        $taskData = $this->taskData();
+
+        $response = $this->post(route('leads.tasks.store', $lead), $taskData);
+        $response->assertSessionHas('success');
+        $response->assertRedirect(route('leads.show', $lead));
+
+        // check db
+        $this->assertDatabaseHas('tasks', $this->taskData() + ['lead_id' => $lead->id]);
+    }
+
+     // task toggle test
+    public function test_toggling_task_success(): void
+    {
+        $user = $this->authUser();
+        $lead = $this->createLead($user);
+        $task = $this->createTask($lead);
+        $response = $this->patch(route('tasks.toggle', $task));
+        $response->assertSessionHas('success');
+        $response->assertRedirect(route('leads.show', $lead));
+
+        // check db
+        $this->assertDatabaseHas('tasks', ['id' => $task->id,'is_done' => !$task->is_done,]);
+    }
+
+    // helpr create task
+    protected function createTask(Lead $lead): Task
+    {
+        return Task::factory()->create(['lead_id' => $lead->id]);
+    }
+
+    // helper task data
+    protected function taskData(): array
+    {
+        return [
+            'title' => 'From Test Task',
+            'due_at' => now()->addDays(5)->toDateString(),
+            'is_done' => false,
+        ];
+    }   
 
     // helper auth
     protected function authUser(): User

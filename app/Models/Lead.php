@@ -20,11 +20,8 @@ class Lead extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-     protected $appends = ['tasks_total', 'tasks_done'];
+   
+    //  protected $appends = ['tasks_total', 'tasks_done'];
 
 
     public function user(): BelongsTo
