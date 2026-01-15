@@ -7,7 +7,6 @@ return [
     'max' => 'The :attribute must not exceed :max characters.',
     'exists' => ':attribute does not exist',
     'failed' => 'Data validation failed',
-    'invalid_locale' => 'Unsupported language specified',
     'array' => 'The :attribute must be an array',
     'unique' => 'The :attribute has already been taken',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date',

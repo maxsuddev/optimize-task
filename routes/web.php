@@ -15,7 +15,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
 Route::group([
-    'middleware' => ['auth', 'lang'],
+    'middleware' => ['auth', 'locale'],
 ], function () {
      Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 

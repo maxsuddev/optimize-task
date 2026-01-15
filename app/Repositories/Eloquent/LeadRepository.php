@@ -47,6 +47,8 @@ class LeadRepository implements LeadRepositoryInterface
     }
     public function delete(int $id): bool
     {
-        return Lead::destroy($id);
+        $lead = Lead::findOrFail($id);
+        $lead->tasks()->delete();
+        return $lead->delete();
     }
 }
